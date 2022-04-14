@@ -180,9 +180,17 @@ namespace DiscreetClient
                     string _call = $"{{\"jsonrpc\": \"2.0\", \"method\": \"{_command}\", \"params\": {_params}, \"id\": {rv} }}";
 
                     Console.WriteLine($"sending call: \n{_call}\n\n\n");
+                    try
+                    {
+                        var result = webClient.UploadString($"http://{_destination}:8350", "POST", _call);
+                        Console.WriteLine("Received data: " + result + "\n\n");
+                    }
+                    catch (Exception)
+                    {
 
-                    var result = webClient.UploadString($"http://{_destination}:8350", "POST", _call);
-                    Console.WriteLine("Received data: " + result + "\n\n");
+                        Console.WriteLine("Invalid call. Are you sure the destination was correct?");
+                    }
+                    
                 }
             }
 
